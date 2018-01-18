@@ -1,6 +1,8 @@
 package com.hotelcalendar.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -169,6 +171,7 @@ public class MonthCalendarView extends ViewGroup {
         }
 
         itemView.setOnClickListener(new OnClickListener() {
+            @SuppressLint("CutPasteId")
             @Override
             public void onClick(View view) {
                 if (!mSingle) {//双选
@@ -177,14 +180,22 @@ public class MonthCalendarView extends ViewGroup {
                         mStartSelectedPos = -1;
                         mEndCalender = null;
                         mEndSelectedPos = -1;
+                        TextView tv_date;
                         for (int i = 0; i < getChildCount(); i++) {
                             getChildAt(i).setSelected(false);
                             ((TextView)getChildAt(i).findViewById(R.id.tv_type)).setText("");
+                            tv_date = getChildAt(i).findViewById(R.id.tv_date);
+                            if (!getContext().getString(R.string.calender_today).equals(tv_date.getText().toString())) {
+                                tv_date.setTextColor(Color.parseColor("#000000"));
+                            } else {
+                                tv_date.setTextColor(Color.parseColor("#ff0000"));
+                            }
                         }
                     }
                     if (mStartCalender == null) {
                         mStartCalender = calendarBO;
                         mStartSelectedPos = pos;
+                        tv_date.setTextColor(Color.parseColor("#ffffff"));
                         tv_type.setText(R.string.calender_start);
                         itemView.setSelected(true);
                     } else {
@@ -196,8 +207,15 @@ public class MonthCalendarView extends ViewGroup {
                                     Toast.LENGTH_SHORT).show();*/
                             getChildAt(mStartSelectedPos).setSelected(false);
                             ((TextView)getChildAt(mStartSelectedPos).findViewById(R.id.tv_type)).setText("");
+                            TextView tv_date_start = getChildAt(mStartSelectedPos).findViewById(R.id.tv_date);
+                            if (!getContext().getString(R.string.calender_today).equals(tv_date_start.getText().toString())) {
+                                tv_date_start.setTextColor(Color.parseColor("#000000"));
+                            } else {
+                                tv_date_start.setTextColor(Color.parseColor("#ff0000"));
+                            }
                             mStartCalender = calendarBO;
                             mStartSelectedPos = pos;
+                            tv_date.setTextColor(Color.parseColor("#ffffff"));
                             tv_type.setText(R.string.calender_start);
                             itemView.setSelected(true);
                             return;
@@ -205,9 +223,12 @@ public class MonthCalendarView extends ViewGroup {
                         mEndCalender = calendarBO;
                         mEndSelectedPos = pos;
                         tv_type.setText(R.string.calender_end);
+                        TextView tv_date_selected;
                         for (int i = mStartSelectedPos; i <= mEndSelectedPos; i++) {
                             //itemView.setSelected(true);
                             getChildAt(i).setSelected(true);
+                            tv_date_selected = getChildAt(i).findViewById(R.id.tv_date);
+                            tv_date_selected.setTextColor(Color.parseColor("#ffffff"));
                         }
                     }
                     Log.e("pos===",mStartSelectedPos+"/"+mEndSelectedPos);

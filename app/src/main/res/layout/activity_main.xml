@@ -96,12 +96,11 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-
     <com.hotelcalendar.widget.MonthCalendarView
         android:id="@+id/month_view"
         app:layout_constraintTop_toBottomOf="@id/week_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f8f8f8"/>
+        android:layout_marginTop="10dp"/>
 
 </android.support.constraint.ConstraintLayout>
